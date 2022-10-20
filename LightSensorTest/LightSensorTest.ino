@@ -8,19 +8,21 @@
  * Smoothng: https://docs.arduino.cc/built-in-examples/analog/Smoothing
  */
 
-const int inputPin = A0;
+const int inputPin = A2;
 const int ledPin = 2;
 
 const int numReadings = 10;
-
 int readings[numReadings];
 int readIndex = 0;
 int total = 0;
 int average = 0;
 
+const int brightnessThreshold = 20;
+
 void setup() {
   // initialize serial communication at 9600 bits per second:
   pinMode(ledPin, OUTPUT);
+  // digitalWrite(ledPin, HIGH);
   for (int i = 0; i < numReadings; i++) {
     readings[i] = 0;
   }
@@ -53,12 +55,12 @@ void loop() {
   Serial.print(average);
 
   // We'll have a few threshholds, qualitatively determined
-  if (average < 20) {
+  if (average < brightnessThreshold) {
     Serial.println(" - Night");
-  digitalWrite(ledPin, HIGH);
+    digitalWrite(ledPin, HIGH);
   } else {
     Serial.println(" - Day");
-  digitalWrite(ledPin, LOW);
+    digitalWrite(ledPin, LOW);
   }
 
   delay(10);
